@@ -1,19 +1,38 @@
 // src/utils/constants.ts
 
-import { Suit, Rank, Card } from '../types/gameTypes'; // Importa as tipagens
+import { Card } from '../types/gameTypes'; // Removido Suit e Rank desta importação
 
-export const SUITS: Suit[] = ['copas', 'espadas', 'ouros', 'paus'];
-export const RANKS: Rank[] = ['4', '5', '6', '7', 'J', 'Q', 'K', 'A', '2', '3'];
+export const SUITS = ['copas', 'espadas', 'ouros', 'paus'] as const; // Adicionado 'as const' para tipagem mais rigorosa
+export type Suit = typeof SUITS[number]; // Define o tipo Suit a partir das constantes
 
-// Mapeamento para fácil acesso ao valor da carta para ordenação no modo Mineiro (sem manilha)
-export const RANK_VALUES: Record<Rank, number> = {
-  '4': 0, '5': 1, '6': 2, '7': 3, 'J': 4, 'Q': 5, 'K': 6, 'A': 7, '2': 8, '3': 9
+export const RANKS = ['4', '5', '6', '7', 'Q', 'J', 'K', 'A', '2', '3'] as const; // Adicionado 'as const'
+export type Rank = typeof RANKS[number]; // Define o tipo Rank a partir das constantes
+
+// Manilhas fixas do Truco Mineiro, em ordem decrescente de força
+export const MINEIRO_TRUMPS_ORDERED: Card[] = [
+  { suit: 'paus', rank: '4' },    // Maior: Zap
+  { suit: 'copas', rank: '7' },   // Segundo: Sete Copas
+  { suit: 'espadas', rank: 'A' }, // Terceiro: Espadilha
+  { suit: 'ouros', rank: '7' },   // Quarto: Sete Ouros
+];
+
+// Mapeia uma carta (Rank_Suit) para sua força no Mineiro.
+// Isso é usado para comparar a força das manilhas fixas do Mineiro.
+// Um valor maior significa mais forte.
+export const MINEIRO_TRUMP_STRENGTH: { [key: string]: number } = {
+  '4_paus': 4,
+  '7_copas': 3,
+  'A_espadas': 2,
+  '7_ouros': 1,
 };
 
-// Manilhas fixas do modo Mineiro (do mais forte para o mais fraco)
-export const MINEIRO_TRUMPS: Card[] = [
-  { rank: '4', suit: 'paus' },   // 4♣
-  { rank: '7', suit: 'copas' },  // 7♥
-  { rank: 'A', suit: 'espadas' },// A♠
-  { rank: '7', suit: 'ouros' }   // 7♦
-];
+// Funções utilitárias para cartas
+export const getCardIdentifier = (card: Card): string => `${card.rank}_${card.suit}`;
+
+// Array com todas as cartas do baralho
+export const FULL_DECK_CARDS: Card[] = [];
+SUITS.forEach(suit => {
+  RANKS.forEach(rank => {
+    FULL_DECK_CARDS.push({ suit, rank });
+  });
+});

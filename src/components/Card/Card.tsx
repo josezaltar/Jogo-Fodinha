@@ -1,40 +1,46 @@
-import {
-  CardContainer,
-  CardContent,
-  CardRank,
-  CardSuit,
-  TopLeft,
-  BottomRight,
-  suitSymbols
-} from './styles';
-import { Card as CardType } from '../../types/gameTypes';
+// src/components/Card/Card.tsx
+import React from 'react';
+import { Card as CardType } from '../../types/gameTypes'; // Renomeia para evitar conflito
+import './Card.css'; // Vamos criar este arquivo de CSS também!
 
 interface CardProps {
-  card?: CardType;
+  card: CardType;
+  isFaceDown?: boolean;
+  isTrump?: boolean;
+  onClick?: (card: CardType) => void;
+  isClickable?: boolean;
 }
 
-export function Card({ card }: CardProps) { // <-- AQUI É A MUDANÇA
-  if (!card) {
-    return <CardContainer $isBack={true} $isRedSuit={false}></CardContainer>;
+const Card: React.FC<CardProps> = ({ card, isFaceDown = false, isTrump = false, onClick, isClickable = false }) => {
+  const cardClass = `card ${card.suit} ${isFaceDown ? 'face-down' : ''} ${isTrump ? 'trump' : ''} ${isClickable ? 'clickable' : ''}`;
+
+  const handleClick = () => {
+    if (isClickable && onClick) {
+      onClick(card);
+    }
+  };
+
+  if (isFaceDown) {
+    return (
+      <div className={cardClass} onClick={handleClick}>
+        <div className="card-back"></div>
+      </div>
+    );
   }
 
-  const { rank, suit } = card;
-  const isRedSuit = suit === 'copas' || suit === 'ouros';
-
   return (
-    <CardContainer $isRedSuit={isRedSuit}>
-      <CardContent>
-        <TopLeft>
-          <CardRank>{rank}</CardRank>
-          <CardSuit>{suitSymbols[suit]}</CardSuit>
-        </TopLeft>
-        <BottomRight>
-          <CardRank>{rank}</CardRank>
-          <CardSuit>{suitSymbols[suit]}</CardSuit>
-        </BottomRight>
-      </CardContent>
-    </CardContainer>
+    <div className={cardClass} onClick={handleClick}>
+      <div className="card-content">
+        <span className="rank">{card.rank}</span>
+        <span className="suit-icon">
+          {card.suit === 'copas' && '♥'}
+          {card.suit === 'espadas' && '♠'}
+          {card.suit === 'ouros' && '♦'}
+          {card.suit === 'paus' && '♣'}
+        </span>
+      </div>
+    </div>
   );
-}
+};
 
-// Não precisa mais de 'export default Card;' aqui
+export default Card;

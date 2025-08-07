@@ -1,0 +1,94 @@
+/* src/components/Card/Card.css */
+
+.card {
+  width: 70px; /* Largura da carta */
+  height: 100px; /* Altura da carta */
+  background-color: #fff;
+  border-radius: 8px;
+  border: 1px solid #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5em;
+  font-weight: bold;
+  position: relative;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  transition: transform 0.1s ease-in-out;
+  margin: 5px; /* Espaçamento entre as cartas */
+}
+
+.card.clickable {
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(97, 218, 251, 0.7); /* Brilho azul */
+  transform: translateY(-5px); /* Efeito de elevação */
+}
+
+.card.clickable:hover {
+  transform: translateY(-8px); /* Eleva mais ao passar o mouse */
+  box-shadow: 0 0 15px rgba(97, 218, 251, 1);
+}
+
+
+/* Estilos para o verso da carta */
+.card.face-down {
+  background-color: #555; /* Cor do verso */
+  background-image: linear-gradient(45deg, #444 25%, transparent 25%, transparent 75%, #444 75%, #444),
+                    linear-gradient(45deg, #444 25%, transparent 25%, transparent 75%, #444 75%, #444);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+  border: 1px solid #777;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.card-back {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  background-color: #4CAF50; /* Cor de fundo do verso da carta */
+  border: 2px solid #388E3C;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 0.8em;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+
+/* Estilos para o conteúdo da carta (frente) */
+.card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.rank {
+  font-size: 1.2em;
+  line-height: 1;
+}
+
+.suit-icon {
+  font-size: 1.8em;
+  line-height: 1;
+}
+
+/* Cores dos naipes */
+.card.copas, .card.ouros {
+  color: #d12020; /* Vermelho */
+}
+
+.card.espadas, .card.paus {
+  color: #333; /* Preto */
+}
+
+/* Indicador de manilha */
+.card.trump {
+  border: 2px solid #ffcc00; /* Borda dourada para manilha */
+  box-shadow: 0 0 10px #ffcc00;
+}
